@@ -1,0 +1,14 @@
+前后端分离的方式
+后端
+	Python MySQL Redis 
+框架
+	Flask
+前端
+	Js html css
+框架
+	Vue 
+
+部署
+	centos
+	nginx
+	
