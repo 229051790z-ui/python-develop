@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}租客管理{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4><i class="bi bi-people"></i> 租客管理</h4>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tenantModal" onclick="clearForm()"><i class="bi bi-person-plus"></i> 添加租客</button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr><th>#</th><th>姓名</th><th>电话</th><th>身份证号</th><th>微信</th><th>添加时间</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+                {% for t in tenants %}
+                <tr>
+                    <td>{{ t.id }}</td>
+                    <td>{{ t.name }}</td>
+                    <td>{{ t.phone }}</td>
+                    <td>{{ t.id_card }}</td>
+                    <td>{{ t.wechat }}</td>
+                    <td>{{ t.created_at.strftime('%Y-%m-%d') if t.created_at else '' }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="editTenant({{ t.id }}, '{{ t.name }}', '{{ t.phone }}', '{{ t.id_card or '' }}', '{{ t.wechat or '' }}')" data-bs-toggle="modal" data-bs-target="#tenantModal"><i class="bi bi-pencil"></i></button>
+                        <form method="post" action="{{ url_for('tenant_delete', id=t.id) }}" style="display:inline" onsubmit="return confirm('确定删除该租客？')">
+                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" class="text-center text-muted py-4">暂无租客数据</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="tenantModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="tenantForm" action="{{ url_for('tenant_add') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">添加租客</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="tenantId">
+                    <div class="mb-3"><label class="form-label">姓名 <span class="text-danger">*</span></label><input type="text" name="name" id="tName" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label">电话 <span class="text-danger">*</span></label><input type="text" name="phone" id="tPhone" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label">身份证号</label><input type="text" name="id_card" id="tIdCard" class="form-control"></div>
+                    <div class="mb-3"><label class="form-label">微信号</label><input type="text" name="wechat" id="tWechat" class="form-control"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function clearForm() {
+    document.getElementById('tenantForm').action = '{{ url_for("tenant_add") }}';
+    document.getElementById('modalTitle').textContent = '添加租客';
+    document.getElementById('tName').value = '';
+    document.getElementById('tPhone').value = '';
+    document.getElementById('tIdCard').value = '';
+    document.getElementById('tWechat').value = '';
+}
+function editTenant(id, name, phone, idCard, wechat) {
+    document.getElementById('tenantForm').action = '/tenant/edit/' + id;
+    document.getElementById('modalTitle').textContent = '编辑租客';
+    document.getElementById('tName').value = name;
+    document.getElementById('tPhone').value = phone;
+    document.getElementById('tIdCard').value = idCard;
+    document.getElementById('tWechat').value = wechat;
+}
+</script>
+{% endblock %}

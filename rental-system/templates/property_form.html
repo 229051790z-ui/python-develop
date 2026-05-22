@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}{{ '编辑房源' if property else '添加房源' }}{% endblock %}
+{% block content %}
+<h4 class="mb-3"><i class="bi bi-building"></i> {{ '编辑房源' if property else '添加房源' }}</h4>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">标题 <span class="text-danger">*</span></label>
+                    <input type="text" name="title" class="form-control" value="{{ property.title if property else '' }}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">地址 <span class="text-danger">*</span></label>
+                    <input type="text" name="address" class="form-control" value="{{ property.address if property else '' }}" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">面积(m²) <span class="text-danger">*</span></label>
+                    <input type="number" step="0.01" name="area" class="form-control" value="{{ property.area if property else '' }}" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">户型</label>
+                    <input type="text" name="layout" class="form-control" value="{{ property.layout if property else '' }}" placeholder="如: 2室1厅1卫">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">楼层</label>
+                    <input type="text" name="floor" class="form-control" value="{{ property.floor if property else '' }}" placeholder="如: 12/28层">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">月租(元) <span class="text-danger">*</span></label>
+                    <input type="number" step="0.01" name="rent_amount" class="form-control" value="{{ property.rent_amount if property else '' }}" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">押金(元) <span class="text-danger">*</span></label>
+                    <input type="number" step="0.01" name="deposit" class="form-control" value="{{ property.deposit if property else '' }}" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">房东姓名</label>
+                    <input type="text" name="landlord_name" class="form-control" value="{{ property.landlord_name if property else '' }}">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">房东电话</label>
+                    <input type="text" name="landlord_phone" class="form-control" value="{{ property.landlord_phone if property else '' }}">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">房东身份证号</label>
+                    <input type="text" name="landlord_id_card" class="form-control" value="{{ property.landlord_id_card if property else '' }}">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label">备注</label>
+                    <textarea name="description" class="form-control" rows="3">{{ property.description if property else '' }}</textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> 保存</button>
+            <a href="{{ url_for('properties') }}" class="btn btn-secondary">取消</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

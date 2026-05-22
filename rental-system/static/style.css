@@ -1,0 +1,58 @@
+body {
+    background-color: #f5f7fa;
+}
+
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+}
+
+.table th {
+    font-weight: 600;
+    color: #555;
+}
+
+.btn {
+    border-radius: 6px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.login-container {
+    max-width: 420px;
+    margin: 100px auto;
+}
+
+.stat-card {
+    border-left: 4px solid;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card.primary { border-left-color: #0d6efd; }
+.stat-card.success { border-left-color: #198754; }
+.stat-card.warning { border-left-color: #ffc107; }
+.stat-card.danger { border-left-color: #dc3545; }
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.navbar {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

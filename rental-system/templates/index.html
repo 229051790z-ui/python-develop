@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}首页{% endblock %}
+{% block content %}
+<h4 class="mb-4"><i class="bi bi-speedometer2"></i> 工作台</h4>
+
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card primary">
+            <div class="card-body">
+                <div class="text-muted small">房源总数</div>
+                <div class="stat-number text-primary">{{ total_properties }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card success">
+            <div class="card-body">
+                <div class="text-muted small">可租房源</div>
+                <div class="stat-number text-success">{{ available_properties }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card warning">
+            <div class="card-body">
+                <div class="text-muted small">合同总数</div>
+                <div class="stat-number text-warning">{{ total_contracts }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card danger">
+            <div class="card-body">
+                <div class="text-muted small">生效合同</div>
+                <div class="stat-number text-danger">{{ active_contracts }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-header"><i class="bi bi-building"></i> 快捷操作</div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('property_add') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> 添加房源</a>
+                    <a href="{{ url_for('tenants') }}" class="btn btn-outline-success"><i class="bi bi-person-plus"></i> 管理租客</a>
+                    <a href="{{ url_for('contract_add') }}" class="btn btn-outline-warning"><i class="bi bi-file-earmark-plus"></i> 新建合同</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-header"><i class="bi bi-info-circle"></i> 说明</div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><i class="bi bi-check2 text-success"></i> 先添加房源，再添加租客</li>
+                    <li class="mb-2"><i class="bi bi-check2 text-success"></i> 创建合同时选择对应的房源和租客</li>
+                    <li class="mb-2"><i class="bi bi-check2 text-success"></i> 合同生成后可导出为PDF文件</li>
+                    <li class="mb-2"><i class="bi bi-check2 text-success"></i> 合同终止后房源自动变为可租状态</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

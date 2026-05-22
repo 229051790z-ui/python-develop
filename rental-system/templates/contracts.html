@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}合同管理{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4><i class="bi bi-file-text"></i> 合同管理</h4>
+    <a href="{{ url_for('contract_add') }}" class="btn btn-primary"><i class="bi bi-file-earmark-plus"></i> 新建合同</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>合同编号</th>
+                    <th>房源</th>
+                    <th>租客</th>
+                    <th>租期</th>
+                    <th>月租(元)</th>
+                    <th>押金(元)</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in contracts %}
+                <tr>
+                    <td>{{ c.contract_no }}</td>
+                    <td>{{ c.property.address if c.property else '-' }}</td>
+                    <td>{{ c.tenant.name if c.tenant else '-' }}</td>
+                    <td>{{ c.start_date }} ~ {{ c.end_date }}</td>
+                    <td>{{ c.monthly_rent }}</td>
+                    <td>{{ c.deposit }}</td>
+                    <td>
+                        {% if c.status == 'active' %}
+                        <span class="badge bg-success">生效中</span>
+                        {% elif c.status == 'terminated' %}
+                        <span class="badge bg-secondary">已终止</span>
+                        {% else %}
+                        <span class="badge bg-info">{{ c.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('contract_pdf', id=c.id) }}" class="btn btn-sm btn-outline-info" target="_blank" title="导出PDF"><i class="bi bi-file-pdf"></i></a>
+                        <a href="{{ url_for('contract_edit', id=c.id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                        {% if c.status == 'active' %}
+                        <form method="post" action="{{ url_for('contract_terminate', id=c.id) }}" style="display:inline" onsubmit="return confirm('确定终止该合同？')">
+                            <button class="btn btn-sm btn-outline-warning"><i class="bi bi-stop-circle"></i></button>
+                        </form>
+                        {% endif %}
+                        <form method="post" action="{{ url_for('contract_delete', id=c.id) }}" style="display:inline" onsubmit="return confirm('确定删除该合同？')">
+                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="8" class="text-center text-muted py-4">暂无合同数据</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

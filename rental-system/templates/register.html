@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}注册 - 租房协议管理系统{% endblock %}
+{% block content %}
+<div class="login-container">
+    <div class="card">
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4">用户注册</h3>
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">用户名 <span class="text-danger">*</span></label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">密码 <span class="text-danger">*</span></label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">真实姓名</label>
+                    <input type="text" name="real_name" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">手机号</label>
+                    <input type="text" name="phone" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">注 册</button>
+            </form>
+            <div class="text-center mt-3">
+                <a href="{{ url_for('login') }}" class="text-decoration-none">已有账号？返回登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

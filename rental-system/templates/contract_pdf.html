@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>房屋租赁合同 - {{ contract.contract_no }}</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        body { font-family: SimSun, serif; font-size: 14px; line-height: 2; color: #333; }
+        h1 { text-align: center; font-size: 22px; font-weight: bold; margin-bottom: 30px; }
+        h2 { font-size: 16px; font-weight: bold; margin-top: 20px; }
+        .contract-no { text-align: right; color: #666; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        table td, table th { border: 1px solid #333; padding: 8px 12px; }
+        table th { background-color: #f0f0f0; width: 120px; }
+        .signature { margin-top: 50px; }
+        .signature .party { display: inline-block; width: 45%; }
+        .signature .party p { margin: 10px 0; }
+        .footer { margin-top: 40px; text-align: center; color: #999; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>房屋租赁合同</h1>
+    <p class="contract-no">合同编号: {{ contract.contract_no }}</p>
+
+    <p>出租方（以下简称甲方）与承租方（以下简称乙方）根据《中华人民共和国民法典》及有关法律法规，在平等、自愿的基础上，就房屋租赁事宜达成如下协议：</p>
+
+    <h2>一、房屋基本情况</h2>
+    <table>
+        <tr><th>房屋地址</th><td colspan="3">{{ contract.property.address }}</td></tr>
+        <tr><th>建筑面积</th><td>{{ contract.property.area }} m²</td><th>户型</th><td>{{ contract.property.layout or '-' }}</td></tr>
+        <tr><th>楼层</th><td>{{ contract.property.floor or '-' }}</td><th>房屋描述</th><td>{{ contract.property.description or '-' }}</td></tr>
+    </table>
+
+    <h2>二、租赁期限</h2>
+    <table>
+        <tr><th>租赁开始日期</th><td>{{ contract.start_date }}</td></tr>
+        <tr><th>租赁结束日期</th><td>{{ contract.end_date }}</td></tr>
+        <tr><th>租赁期限</th><td>共 {{ ((contract.end_date - contract.start_date).days) }} 天</td></tr>
+    </table>
+
+    <h2>三、租金及支付方式</h2>
+    <table>
+        <tr><th>月租金</th><td>¥{{ "%.2f"|format(contract.monthly_rent) }} 元</td></tr>
+        <tr><th>支付方式</th><td>{{ contract.payment_method }}</td></tr>
+        <tr><th>押金</th><td>¥{{ "%.2f"|format(contract.deposit) }} 元</td></tr>
+    </table>
+
+    <h2>四、合同双方信息</h2>
+    <table>
+        <tr><th>甲方(出租方)</th><td>{{ contract.property.landlord_name or '-' }}</td><th>联系电话</th><td>{{ contract.property.landlord_phone or '-' }}</td></tr>
+        <tr><th>身份证号</th><td colspan="3">{{ contract.property.landlord_id_card or '-' }}</td></tr>
+        <tr><th>乙方(承租方)</th><td>{{ contract.tenant.name }}</td><th>联系电话</th><td>{{ contract.tenant.phone }}</td></tr>
+        <tr><th>身份证号</th><td colspan="3">{{ contract.tenant.id_card or '-' }}</td></tr>
+    </table>
+
+    {% if contract.special_terms %}
+    <h2>五、特别约定</h2>
+    <p>{{ contract.special_terms }}</p>
+    {% endif %}
+
+    <h2>六、合同条款</h2>
+    <ol>
+        <li>乙方在租赁期间需按时缴纳租金，逾期按每日千分之三支付违约金。</li>
+        <li>租赁期间，乙方不得擅自将房屋转租、转借给他人使用。</li>
+        <li>乙方应合理使用房屋及附属设施，不得擅自改变房屋结构。</li>
+        <li>租赁期间的水、电、燃气、物业等费用由乙方承担。</li>
+        <li>合同期满后，如乙方需继续租用，应在期满前30天通知甲方。</li>
+        <li>租赁期满，乙方交还房屋时，甲方应退还押金（扣除乙方应承担费用后）。</li>
+        <li>本合同一式两份，甲乙双方各执一份，具有同等法律效力。</li>
+    </ol>
+
+    <div class="signature">
+        <div class="party">
+            <p><strong>甲方（出租方）签字：</strong></p>
+            <p>姓名：{{ contract.property.landlord_name or '________' }}</p>
+            <p>电话：{{ contract.property.landlord_phone or '________' }}</p>
+            <p>日期：____年____月____日</p>
+        </div>
+        <div class="party">
+            <p><strong>乙方（承租方）签字：</strong></p>
+            <p>姓名：{{ contract.tenant.name }}</p>
+            <p>电话：{{ contract.tenant.phone }}</p>
+            <p>日期：____年____月____日</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>本租赁合同由系统自动生成，双方签字盖章后生效</p>
+    </div>
+</body>
+</html>
