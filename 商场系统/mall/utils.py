@@ -1,6 +1,6 @@
 import hashlib
 import time 
-import simplejson as json#pip install simplejson 或者 pip install python-simplejson
+import json#pip install simplejson 或者 pip install python-simplejson
 
 def result(code=200,d={}):
 	data = dict()#object.__dict__
